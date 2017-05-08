@@ -174,6 +174,10 @@ DetectRTC.load(function() {
     DetectRTC.browser.isIE;
     DetectRTC.browser.isSafari;
     DetectRTC.browser.isEdge;
+    DetectRTC.browser.isCypress;
+    DetectRTC.browser.isElectron;
+
+
 
     DetectRTC.browser.isPrivateBrowsing; // incognito or private modes
 

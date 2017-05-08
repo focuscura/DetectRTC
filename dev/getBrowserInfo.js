@@ -1,12 +1,13 @@
 var isMobileDevice = !!(/Android|webOS|iPhone|iPad|iPod|BB10|BlackBerry|IEMobile|Opera Mini|Mobile|mobile/i.test(navigator.userAgent || ''));
 
 var isEdge = navigator.userAgent.indexOf('Edge') !== -1 && (!!navigator.msSaveOrOpenBlob || !!navigator.msSaveBlob);
-
 var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 var isFirefox = typeof window.InstallTrigger !== 'undefined';
 var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
 var isChrome = !!window.chrome && !isOpera;
 var isIE = typeof document !== 'undefined' && !!document.documentMode && !isEdge;
+var isCypress = navigator.userAgent.indexOf('Cypress') !== -1;
+var isElectron = window && window.process && window.process.type;
 
 // this one can also be used:
 // https://www.websocket.org/js/stuff.js (DetectBrowser.js)
@@ -36,7 +37,18 @@ function getBrowserInfo() {
         browserName = 'IE';
         fullVersion = nAgt.substring(verOffset + 5);
     }
-    // In Chrome, the true version is after 'Chrome' 
+    // In Cypress, the true version is after 'Cypress'
+    else if (isCypress) {
+        verOffset = nAgt.indexOf('Cypress');
+        browserName = 'Cypress';
+        fullVersion = nAgt.substring(verOffset + 8);
+    }
+    // In Electron, the true version can be gotten from the process
+    else if (isElectron) {
+        browserName = 'Electron';
+        fullVersion = process.versions['electron'];
+    }
+    // In Chrome, the true version is after 'Chrome'
     else if (isChrome) {
         verOffset = nAgt.indexOf('Chrome');
         browserName = 'Chrome';
